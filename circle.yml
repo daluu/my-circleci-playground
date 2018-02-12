@@ -1,16 +1,23 @@
 machine:
   services:
     - docker
+  python:
+    version: 2.7.11
+  node:
+    version: 6.1.0
   environment:
 dependencies:
+  cache_directories:
+    - "./node_modules"
+    - "~/.cache/pip"
   pre:
-    # nothing for now
+    # do nothing
   override:
 test:
   override:
-    # nothing for now
-deployment:
-  dev:
-    branch: master
-    commands:
-      - docker build -t daluu/my-circleci-playground .
+    - echo "nothing to test"
+#deployment:
+#  dev:
+#    branch: master
+#    commands:
+#      - docker build -t daluu/my-circleci-playground .

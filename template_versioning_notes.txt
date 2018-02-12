@@ -1,0 +1,17 @@
+# if we wanted to base version from pom.xml...
+POM_VER=`mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -Ev '(^\[|Download\w+:)'`
+mvn versions:set -DnewVersion=${VERSION}
+mvn package
+
+cat package.json | jq --arg actualversion $VERSION '.version = $actualversion' > packageN.json && mv packageN.json package.json
+
+git config --global user.email "tbd"; git config --global user.name "CircleCI User"; git config --global push.default simple
+VER=`cat $version_file`; github-release delete  --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME --tag v$VER || echo "No such version, didn't delete"
+VER=`cat $version_file`; github-release release --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME --tag v$VER  --target $CIRCLE_SHA1
+VER=`cat $version_file`; github-release upload --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME --tag v$VER  --name some_name-v${VER}.zip --file package/some_name.zip
+
+eval $(aws ecr get-login --region us-east-1)
+docker build -t label .
+VER=`cat $version_file`; docker tag label $DOCKER_REGISTRY/label:v${VER}
+VER=`cat $version_file`; docker push $DOCKER_REGISTRY/label:v${VER}
+docker tag label $DOCKER_REGISTRY/label:latest; docker push $DOCKER_REGISTRY/label:latest
