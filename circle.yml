@@ -21,8 +21,9 @@ test:
     - echo "now doing git diff for list of files changes"
     #- git diff --name-only --diff-filter=ACM --color HEAD@{1}..HEAD@{0}
     - git diff-tree --no-commit-id --name-only -r HEAD
-    - git diff-tree --no-commit-id --name-only -r $(echo $CIRCLE_COMPARE_URL | cut -d/ -f 7)
-    - git diff-tree --no-commit-id --name-only -r $(echo $CIRCLE_COMPARE_URL)
+    #- git diff-tree --no-commit-id --name-only -r $(echo $CIRCLE_COMPARE_URL | cut -d/ -f 7)
+    #- git diff-tree --no-commit-id --name-only -r $(echo $CIRCLE_COMPARE_URL)
+    - echo $CIRCLE_COMPARE_URL
 #deployment:
 #  dev:
 #    branch: master
