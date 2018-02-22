@@ -22,7 +22,7 @@ test:
     #- git diff --name-only --diff-filter=ACM --color HEAD@{1}..HEAD@{0}
     - git diff-tree --no-commit-id --name-only -r HEAD
     - echo $CIRCLE_COMPARE_URL
-    - git diff-tree --no-commit-id --name-only -r `echo $CIRCLE_COMPARE_URL | cut -d/ -f 7`
+    - git diff-tree --no-commit-id --name-only -r `echo ${CIRCLE_COMPARE_URL} | cut -d/ -f 7`
 
 #deployment:
 #  dev:
