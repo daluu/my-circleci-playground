@@ -12,11 +12,13 @@ dependencies:
     - "~/.cache/pip"
   pre:
     # do nothing
+    - echo "nothing for deps pre step for now"
   override:
 test:
   override:
     #- echo "nothing to test"
-    - echo "doing git diff of changes"
+    - node main.js
+    - echo "now doing git diff of changes"
     - git diff --color HEAD@{1}..HEAD@{0} -- | wc -l
 #deployment:
 #  dev:
