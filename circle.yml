@@ -15,7 +15,9 @@ dependencies:
   override:
 test:
   override:
-    - echo "nothing to test"
+    #- echo "nothing to test"
+    - echo "doing git diff of changes"
+    - git diff --color HEAD@{1}..HEAD@{0} -- | wc -l
 #deployment:
 #  dev:
 #    branch: master
